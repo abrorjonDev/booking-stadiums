@@ -7,6 +7,11 @@ from users.validators import phone_number_validator
 
 
 class User(AbstractUser):
+    class ROLE(models.TextChoices):
+        ADMIN = 'admin', _("Admin")
+        STADIUM_OWNER = 'owner', _("Stadium Owner")
+        USER = 'user', _("User")
+
     email = None
     username = None
 
@@ -19,6 +24,7 @@ class User(AbstractUser):
             "unique": _("A user with that phone number already exists."),
         },
     )
+    _role = models.CharField(max_length=5, choices=ROLE.choices, default=ROLE.USER)
     EMAIL_FIELD = None
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = []
@@ -32,6 +38,7 @@ class User(AbstractUser):
 
     @property
     def role(self):
-        role = self.groups.first()
-        if role:
-            return role.name
+        return self._role
+
+    def set_role(self, role):
+        setattr(self, '_role', role)

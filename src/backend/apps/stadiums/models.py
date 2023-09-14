@@ -1,7 +1,10 @@
 from django.db import models
+from django.db.models.functions import Concat
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 
 from base_models import BaseModel
+from stadiums.managers import StadiumManager
 
 
 class Stadium(BaseModel):
@@ -26,6 +29,8 @@ class Stadium(BaseModel):
     # longitude = models.DecimalField(max_digits=30, decimal_places=8, null=True)
     # latitude = models.DecimalField(max_digits=30, decimal_places=8, null=True)
 
+    objects = StadiumManager()
+
     class Meta:
         verbose_name = _('Stadium')
         verbose_name_plural = _('Stadiums')
@@ -37,6 +42,15 @@ class Stadium(BaseModel):
     @property
     def images_list(self):
         return self.images.only('media')
+    
+    def images_data(self, request):
+        media_url = request.build_absolute_uri(settings.MEDIA_URL)
+        return self.images_list.values('id').annotate(
+            media=Concat(
+                models.Value(media_url), models.F('media'), 
+                output_field=models.CharField()
+                )
+            )
 
     @property
     def price_readable(self):

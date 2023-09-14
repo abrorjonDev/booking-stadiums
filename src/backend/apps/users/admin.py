@@ -19,6 +19,7 @@ class UserAdmin(BaseUserAdmin):
                 'is_staff', 
                 'is_superuser',
                 'groups', 
+                "_role",
                 # 'user_permissions',
             )
         }),
