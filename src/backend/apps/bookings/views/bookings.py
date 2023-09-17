@@ -1,7 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 from drf_yasg.utils import swagger_auto_schema
 
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 
 from bookings.models import Booking
@@ -23,7 +23,7 @@ class QuerySetMixin:
         return qs
 
 
-class BookingListCreateAPI(QuerySetMixin, ListAPIView, CreateAPIView):
+class BookingListCreateAPI(QuerySetMixin, ListCreateAPIView):
     serializer_class = BookingListSerializer
     filterset_fields = {
         'stadium': ['exact'],
