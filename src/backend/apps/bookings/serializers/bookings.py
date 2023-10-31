@@ -22,8 +22,8 @@ class BookingListSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super(BookingListSerializer, self).to_representation(instance)
 
-        data['created_by'] = str(instance.created_by) if instance.created_by else None
-        data['modified_by'] = str(instance.modified_by) if instance.modified_by else None
+        data['created_by'] = str(instance._created_by) if instance.created_by else None
+        data['modified_by'] = str(instance._modified_by) if instance.modified_by else None
 
         return data
 
