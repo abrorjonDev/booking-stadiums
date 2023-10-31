@@ -16,8 +16,8 @@ class BookingListSerializer(serializers.ModelSerializer):
         return attrs
 
     def get_request_user(self):
-        if self.context.get('request'):
-            return self.context.get('request').user
+        if 'request' in self.context:
+            return self.context['request'].user
 
     def to_representation(self, instance):
         data = super(BookingListSerializer, self).to_representation(instance)
