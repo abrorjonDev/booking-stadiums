@@ -31,11 +31,16 @@ class StadiumSearchFilter(filters.FilterSet):
     class Meta:
         model = Stadium
         fields = {
-            'name': ['icontains'],
+            'name': [ 'icontains' ],
         }
 
     def filter_datetime_in(self, queryset, name, value):
         """checks and excludes if value (start or end) is inside of booked time"""
         if value:
-            queryset = queryset.exclude(models.Q(bookings__booked_at__lt=value)&models.Q(bookings__closed_at__gt=value))
+            queryset = queryset.exclude(
+                models.Q(
+                    bookings__booked_at__lt=value
+                )&models.Q(
+                    bookings__closed_at__gt=value
+                ))
         return queryset
