@@ -16,6 +16,9 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         data['role'] = self.user.role
         if self.user:
-            data['user'] = model_to_dict(self.user, fields=('phone_number', 'last_name', 'first_name'))
+            data['user'] = model_to_dict(
+                self.user,
+                fields=('phone_number', 'last_name', 'first_name')
+            )
 
         return data
